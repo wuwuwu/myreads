@@ -22,9 +22,6 @@ class BooksApp extends React.Component {
   }
 
   shelfChange = (book,event) => {
-    // console.log('controlling changes in the select ' + event.target.value)
-    //console.log(book)
-    // We are going to update the state based in the current state, ergo this pattern
     const valor = event.target.value
     this.setState((state) => ({
       books: state.books.map((b) => { return b.id === book.id ? (b.shelf = valor, b) : (b)})
