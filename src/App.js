@@ -12,36 +12,23 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    books: [],
-    /*books: [
-      {
-        title: 'El pendulo de foucault',
-        authors: 'Umberto Eco',
-        imageLinks: {smallThumbnail: 'http://books.google.com/books/content?id=nggnmAEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api'},
-        shelf: 'currentlyReading',
-        id: '32sdfs'
-      },
-      {
-        title: 'Libro dos',
-        authors: 'Umberto Eco',
-        imageLinks: {smallThumbnail: 'http://books.google.com/books/content?id=nggnmAEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api'},
-        shelf: 'wantToRead',
-        id: '323sd'
-      },
-      {
-        title: 'Libro tres',
-        authors: 'Umberto Eco',
-        imageLinks: {smallThumbnail: 'http://books.google.com/books/content?id=nggnmAEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api'},
-        shelf: 'read',
-        id: '32323'
-      }
-    ]*/
+    books: []
   }
 
   componentDidMount(){
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
+  }
+
+  shelfChange = (book,event) => {
+    // console.log('controlling changes in the select ' + event.target.value)
+    //console.log(book)
+    // We are going to update the state based in the current state, ergo this pattern
+    const valor = event.target.value
+    this.setState((state) => ({
+      books: state.books.map((b) => { return b.id === book.id ? (b.shelf = valor, b) : (b)})
+    }))
   }
 
   render() {
@@ -53,9 +40,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Bookshelf books={this.state.books} category='currentlyReading' bookshelf_title='Currently Reading'/>
-                <Bookshelf books={this.state.books} category='wantToRead' bookshelf_title='Want to Read'/>
-                <Bookshelf books={this.state.books} category='read' bookshelf_title='Read'/>
+                <Bookshelf  onShelfChange={this.shelfChange} books={this.state.books} category='currentlyReading' bookshelf_title='Currently Reading'/>
+                <Bookshelf  onShelfChange={this.shelfChange} books={this.state.books} category='wantToRead' bookshelf_title='Want to Read'/>
+                <Bookshelf  onShelfChange={this.shelfChange} books={this.state.books} category='read' bookshelf_title='Read'/>
               </div>
             </div>
             <div className="open-search">
