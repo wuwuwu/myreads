@@ -22,10 +22,14 @@ class BooksApp extends React.Component {
   }
 
   shelfChange = (book,event) => {
-    const valor = event.target.value
-    this.setState((state) => ({
-      books: state.books.map((b) => { return b.id === book.id ? (b.shelf = valor, b) : (b)})
-    }))
+    const shelf = event.target.value
+    BooksAPI.update(book, shelf).then(() => {
+      // Make the changes in the state
+      this.setState((state) => ({
+        books: state.books.map((b) => { return b.id === book.id ? (b.shelf = shelf, b) : (b)})
+      }))
+
+    })
   }
 
   render() {
