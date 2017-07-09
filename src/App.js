@@ -1,5 +1,6 @@
 import React from 'react'
 import Bookshelf from './Bookshelf'
+import SearchBook from './SearchBook'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
@@ -50,6 +51,7 @@ class BooksApp extends React.Component {
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
             </div>
           </div>
+          <SearchBook/>
       </div>
     )
   }
