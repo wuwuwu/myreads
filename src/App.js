@@ -8,7 +8,7 @@ import './App.css'
 class BooksApp extends React.Component {
   state = {
     books: [],
-    query: {}
+    query: {},
   }
 
   componentDidMount(){
@@ -19,14 +19,18 @@ class BooksApp extends React.Component {
 
   shelfChange = (book,event) => {
     const shelf = event.target.value
-    console.log('am I able to do said change?')
     BooksAPI.update(book, shelf).then(() => {
       // Make the changes in the state
       this.setState((state) => ({
-        books: state.books.map((b) => { return b.id === book.id ? (b.shelf = shelf, b) : (b)})
+        books: this.state.books.map((b) => { return b.id === book.id ? (b.shelf = shelf, b) : (b)})
       }))
 
     })
+  }
+
+  changeFromSearch = (event) => {
+    console.log('Doing my best to sync the hp and search view')
+    console.log(this.state.books)
   }
 
   render() {
@@ -61,7 +65,7 @@ class BooksApp extends React.Component {
         )}/>
 
         <Route exact path="/search"  render={() => (
-          <SearchBook state={this.state}/>
+          <SearchBook state={this.state} onShelfChange={this.shelfChange} hpBooks={this.state.books} changeFromSearch={this.changeFromSearch}/>
         )}/>
 
       </div>

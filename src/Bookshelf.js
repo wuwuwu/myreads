@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 class Bookshelf extends Component {
   render () {
     const { onShelfChange, category, books } = this.props
-
+    //console.log("this are the props of Bookshelf")
+    //console.log(this.props)
    return(
 
      <div className="bookshelf-books">
@@ -15,7 +16,7 @@ class Bookshelf extends Component {
                <div className="book-top">
                  <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
                  <div className="book-shelf-changer">
-                   <select defaultValue={book.shelf} onChange={(evt) => onShelfChange(book, evt)}>
+                    <select defaultValue={book.shelf} onChange={(evt) => onShelfChange(book, evt)} onClick={(event) => this.props.onChangeFromSearch()}>
                      <option value="none" disabled>Move to...</option>
                      <option value="currentlyReading">Currently Reading</option>
                      <option value="wantToRead">Want to Read</option>
