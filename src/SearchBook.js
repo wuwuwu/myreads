@@ -4,7 +4,7 @@ import Bookshelf from './Bookshelf'
 import * as BooksAPI from './BooksAPI'
 // Handling the queries and sorting by
 import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
+//import sortBy from 'sort-by'
 
 class SearchBook extends Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class SearchBook extends Component {
     this.setState({ query: query.trim()})
   }
 
+
   render (){
     let searchedBooks
     if (this.state.query) {
@@ -28,9 +29,11 @@ class SearchBook extends Component {
 
       console.log(this.state.query)
       // Make the call to the api and populate the books with it
+      /*
       BooksAPI.search(this.state.query, 20).then((searchedBooks) => {
         this.setState({ books: searchedBooks })
       })
+      */
     }
 
     return (
@@ -53,7 +56,7 @@ class SearchBook extends Component {
           </div>
         </div>
         <div className="search-book-search">
-          <Bookshelf books={this.props.books} onShelfChange={this.props.onShelfChange} category='none'/>
+          <Bookshelf booksToDisplay={this.props.booksToDisplay} books={this.props.books} onShelfChange={this.props.onShelfChange} category='none'/>
         </div>
       </div>
     )
