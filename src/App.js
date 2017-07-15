@@ -9,12 +9,7 @@ class BooksApp extends React.Component {
   state = {
     books: [],
     query: {},
-  }
-
-  componentDidMount(){
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books })
-    })
+    counter: 0
   }
 
   shelfChange = (book,event) => {
@@ -28,9 +23,21 @@ class BooksApp extends React.Component {
     })
   }
 
-  changeFromSearch = (event) => {
-    console.log('Doing my best to sync the hp and search view')
-    console.log(this.state.books)
+  shelfChangeS = (book,event) => {
+    console.log(this.props.books)
+    this.setState((state) => ({
+      //console.log('updating counter')
+      counter: this.state.counter + 1
+    }))
+  }
+
+  componentDidMount(){
+    BooksAPI.getAll().then((books) => {
+      this.setState({ books })
+    })
+    BooksAPI.search("Android", 20).then((booksSearched) => {
+      this.setState({ booksSearched })
+    })
   }
 
   render() {
@@ -39,20 +46,20 @@ class BooksApp extends React.Component {
         <Route exact path="/" render={() => (
           <div className="list-books">
             <div className="list-books-title">
-              <h1>MyReads</h1>
+              <h1>MyReads {this.state.counter}</h1>
             </div>
             <div className="list-books-content">
               <div className="bookshelf">
               <h2 className="bookshelf-title">Currently Reading</h2>
-                <Bookshelf  onShelfChange={this.shelfChange} books={this.state.books} category='currentlyReading'/>
+                <Bookshelf books={this.state.books} onShelfChange={this.shelfChange} category='currentlyReading'/>
               </div>
               <div className="bookshelf">
               <h2 className="bookshelf-title">Want to Read</h2>
-                <Bookshelf  onShelfChange={this.shelfChange} books={this.state.books} category='wantToRead'/>
+                <Bookshelf books={this.state.books} onShelfChange={this.shelfChange} category='wantToRead'/>
               </div>
               <div className="bookshelf">
               <h2 className="bookshelf-title">Read</h2>
-                <Bookshelf  onShelfChange={this.shelfChange} books={this.state.books} category='read'/>
+                <Bookshelf books={this.state.books} onShelfChange={this.shelfChange} category='read'/>
               </div>
             </div>
             <div className="open-search">
@@ -65,7 +72,7 @@ class BooksApp extends React.Component {
         )}/>
 
         <Route exact path="/search"  render={() => (
-          <SearchBook state={this.state} onShelfChange={this.shelfChange} hpBooks={this.state.books} changeFromSearch={this.changeFromSearch}/>
+          <SearchBook books={this.state.books} onShelfChange={this.shelfChange} category='none'/>
         )}/>
 
       </div>
