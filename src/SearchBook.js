@@ -50,13 +50,12 @@ class SearchBook extends Component {
               type="text"
               value={this.state.query}
               placeholder="search books"
-              onClick={(event) => console.log(this.props)}
               onChange={(event) => this.updateQuery(event.target.value)}
             />
           </div>
         </div>
         <div className="search-book-search">
-          <Bookshelf booksToDisplay={this.props.booksToDisplay} books={this.props.books} onShelfChange={this.props.onShelfChange} category='none'/>
+          <Bookshelf books={this.props.booksSearched} onShelfChange={this.props.onShelfChange} onUpdate={this.props.onUpdate} category='none'/>
         </div>
       </div>
     )

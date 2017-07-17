@@ -275,3 +275,5 @@ class SearchBook extends Component {
 }
 
 export default SearchBook
+
+// onClick={(evt) => console.log(this.props.book)}
