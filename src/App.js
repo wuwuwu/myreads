@@ -19,11 +19,13 @@ class BooksApp extends React.Component {
   TO DO
   // [] Make a call updating the API when the values of the book are changed
   // [] Clean the code from console calls
-  // [] Add a rule to check if the id actually exists in the array
   // [] Add conditional, if the books exists, change the shelf value
   // [] Add Logic for search showing actual api returned books
   // [] If it does not exists, add it to the state
+  // [] Isolate change of shelf as a function
 
+  // X Add a rule to check if the id actually exists in the array
+  // X Add logic to change shelf of the book even in the search
   // X Add Logic to show in book sub menu the current category of the book
   // X Show different homepage and search pages | Adding routes
   // X Add a shelf foor each category
