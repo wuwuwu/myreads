@@ -17,13 +17,15 @@ class BooksApp extends React.Component {
   }
   /*
   TO DO
-  // [] Make a call updating the API when the values of the book are changed
-  // [] Clean the code from console calls
-  // [] Add conditional, if the books exists, change the shelf value
+
+
   // [] Add Logic for search showing actual api returned books
-  // [] If it does not exists, add it to the state
   // [] Isolate change of shelf as a function
 
+  // X Add conditional, if the books exists, change the shelf value
+  // X If it does not exists, add it to the state
+  // X Clean the code from console calls
+  // X Make a call updating the API when the values of the book are changed
   // X Add a rule to check if the id actually exists in the array
   // X Add logic to change shelf of the book even in the search
   // X Add Logic to show in book sub menu the current category of the book
@@ -32,48 +34,24 @@ class BooksApp extends React.Component {
   // X Add logic to change the shelf title acordingly with the category
 
   */
-  onUpdates = (book, evt) => {
-    /* THIS FUCKING WORKS     */
-    console.log(this.state.counter)
-    const newCounter = this.state.counter + 1
-    console.log(newCounter)
-    console.log(book.title)
-    const newbooks = this.state.books.slice()
-    newbooks.push(book)
-    console.log(newbooks)
-    this.setState({ counter: newCounter, books: newbooks })
-
-  }
-
 
   updateBook = (book, evt) => {
     const shelf = evt.target.value
-    const newbooks = this.state.books.slice()
+    BooksAPI.update(book, shelf).then(() => {
+      // Create a new array to treat the state as stateless
+      const newbooks = this.state.books.slice()
+      //We use a ternary operator to check if the book exists in the array
+      this.state.books.includes(book) ? (
+        // if it does exists, create a new array using map, with the shelf values changed for the book
+        this.setState((state) => ({ books: this.state.books.map((b) => { return b.id === book.id ? (b.shelf = shelf, b) : (b)})}))
+      ): (
+        // if it does not exist, change the shelf and add the book to the new array, set it in the state
+        book.shelf = shelf,
+        newbooks.push(book),
+        this.setState({ books: newbooks })
 
-    //Check if the book already exists in books, returns true if exists, false if not
-    console.log('Is the book included? '+ this.state.books.includes(book))
-
-    //We use a ternary operator
-    this.state.books.includes(book) ? (
-      this.setState((state) => ({ books: this.state.books.map((b) => { return b.id === book.id ? (b.shelf = shelf, b) : (b)})}))
-    ): (
-      console.log('This is a new book'),
-      console.log('here I should be able to update the books'),
-      console.log(newbooks),
-      book.shelf = shelf,
-      newbooks.push(book),
-      this.setState({ books: newbooks })
-
-    )
-    // 1. to create a new array using maps, change the value of shelf if book exists
-    //const newbooks = this.state.books.concat(book)
-    /*
-    this.setState((state) => ({
-      books: this.state.books.map((b) => { return b.id === book.id ? (b.shelf = shelf, b) : (b)})
-    }))
-    */
-        // check that it has changed the shelf value in the new arraw
-  //  console.log(this.state.books.indexOf(book))
+      )
+    })
   }
 
   componentDidMount(){
@@ -92,7 +70,7 @@ class BooksApp extends React.Component {
         <Route exact path="/" render={() => (
           <div className="list-books">
             <div className="list-books-title">
-              <h1>MyReads {this.state.counter}</h1>
+              <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
                 <Bookshelf counter={ this.state.counter } books={this.state.books.filter(book => book.shelf === 'currentlyReading')} onShelfChange={this.updateBook} onUpdate={this.onUpdate} bookshelf_title={'Currently reading'}/>
