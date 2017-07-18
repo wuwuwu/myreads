@@ -17,17 +17,21 @@ class BooksApp extends React.Component {
   }
   /*
   TO DO
-  // [] Add conditional, if the books exists, change the shelf value
-  // X Add Logic to show in book sub menu the current category of the book
-  // [] If it does not exists, add it to the state
+  // [] Make a call updating the API when the values of the book are changed
+  // [] Clean the code from console calls
   // [] Add a rule to check if the id actually exists in the array
-  // X Show different homepage and search pages | Adding routes
+  // [] Add conditional, if the books exists, change the shelf value
   // [] Add Logic for search showing actual api returned books
+  // [] If it does not exists, add it to the state
+
+  // X Add Logic to show in book sub menu the current category of the book
+  // X Show different homepage and search pages | Adding routes
   // X Add a shelf foor each category
   // X Add logic to change the shelf title acordingly with the category
 
   */
-  onUpdate = (book, evt) => {
+  onUpdates = (book, evt) => {
+    /* THIS FUCKING WORKS     */
     console.log(this.state.counter)
     const newCounter = this.state.counter + 1
     console.log(newCounter)
@@ -36,27 +40,28 @@ class BooksApp extends React.Component {
     newbooks.push(book)
     console.log(newbooks)
     this.setState({ counter: newCounter, books: newbooks })
+
   }
 
 
   updateBook = (book, evt) => {
     const shelf = evt.target.value
-    const newbooks = this.state.books.concat(book)
+    const newbooks = this.state.books.slice()
+
     //Check if the book already exists in books, returns true if exists, false if not
-    console.log(this.state.books.includes(book))
-    // Probamos a agregarlo a un nuevo array
-    var newArray = this.state.books.slice()
-    newArray.push(book)
+    console.log('Is the book included? '+ this.state.books.includes(book))
 
     //We use a ternary operator
     this.state.books.includes(book) ? (
       this.setState((state) => ({ books: this.state.books.map((b) => { return b.id === book.id ? (b.shelf = shelf, b) : (b)})}))
     ): (
       console.log('This is a new book'),
-      console.log(newArray),
-      //this.setState((state) => ({ books: newArray })),
-      this.setState({books: newArray}),
-      console.log(this.state.books)
+      console.log('here I should be able to update the books'),
+      console.log(newbooks),
+      book.shelf = shelf,
+      newbooks.push(book),
+      this.setState({ books: newbooks })
+
     )
     // 1. to create a new array using maps, change the value of shelf if book exists
     //const newbooks = this.state.books.concat(book)
