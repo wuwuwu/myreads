@@ -12,15 +12,18 @@ class BooksApp extends React.Component {
   state = {
     counter: 0,
     books: [],
-    newbooks: [],
-    query: {}
+    newbooks: []
   }
   /*
   TO DO
 
 
   // [] Add Logic for search showing actual api returned books
+  // [] Not all books have a Thumbnail, imageLinks or Authors, create a logic to use default values in that case (null or undefined)
+  // [] In the search query, check if it has changed and only make the call if it has indeed changed
+  // [] Refactor to have a Book component. Verify and operate over the book ditionary itself in the component
   // [] Isolate change of shelf as a function
+  // [] Add logic to show the number of books in each category
 
   // X Add conditional, if the books exists, change the shelf value
   // X If it does not exists, add it to the state
@@ -88,7 +91,7 @@ class BooksApp extends React.Component {
         )}/>
         {/* Route for the Search */}
         <Route exact path="/search"  render={() => (
-          <SearchBook booksSearched={this.state.booksSearched} onShelfChange={this.updateBook} onUpdate={this.onUpdate} category='none'/>
+          <SearchBook booksSearched={this.state.booksSearched} onShelfChange={this.updateBook} />
         )}/>
       </div>
     )

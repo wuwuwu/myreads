@@ -17,8 +17,17 @@ class SearchBook extends Component {
   }
 
   updateQuery = (query) => {
-    this.setState({ query: query.trim()})
-    console.log(query)
+    // (query !== this.state.query) && (this.setState({ query: query.trim()}),console.log(query))
+    if (query !== this.state.query) {
+      // 0. Checking it is calling the function from the search field
+      console.log(query)
+      // 1. we update the value of query in the state
+      this.setState({ query: query.trim()})
+      // 2. we repopulate the searchedBooks
+      BooksAPI.search(this.state.query, 20).then((searchedBooks) => {
+        this.setState({ searchedBooks })
+      })
+    }
   }
 
 
@@ -27,8 +36,6 @@ class SearchBook extends Component {
     if (this.state.query) {
       // If there is a query, they scape special characters
       const match = new RegExp(escapeRegExp(this.state.query), 'i')
-
-      console.log(this.state.query)
       // Make the call to the api and populate the books with it
       /*
       BooksAPI.search(this.state.query, 20).then((searchedBooks) => {
@@ -49,14 +56,14 @@ class SearchBook extends Component {
             <input
               className=""
               type="text"
-              value={this.state.query}
               placeholder="search books"
+              value={this.state.query}
               onChange={(event) => this.updateQuery(event.target.value)}
             />
           </div>
         </div>
         <div className="search-book-search">
-          <Bookshelf books={this.props.booksSearched} onShelfChange={this.props.onShelfChange} onUpdate={this.props.onUpdate} category='none'/>
+          <Bookshelf books={this.state.searchedBooks} onShelfChange={this.props.onShelfChange} onUpdate={this.props.onUpdate} category='none'/>
         </div>
       </div>
     )

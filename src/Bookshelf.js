@@ -4,7 +4,7 @@ class Bookshelf extends Component {
   render () {
    return(
      <div className="bookshelf">
-     <h2 className="bookshelf-title">{this.props.bookshelf_title} ({this.props.books.length})</h2>
+     <h2 className="bookshelf-title">{this.props.bookshelf_title}</h2>
        <div className="bookshelf-books">
          <ol className="books-grid">
            {this.props.books.map(book => (
