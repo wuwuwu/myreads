@@ -20,30 +20,29 @@ class SearchBook extends Component {
     // (query !== this.state.query) && (this.setState({ query: query.trim()}),console.log(query))
     if (query !== this.state.query) {
       // 0. Checking it is calling the function from the search field
-      console.log(query)
+      //console.log(this.props.books)
       // 1. we update the value of query in the state
       this.setState({ query: query.trim()})
       // 2. we repopulate the searchedBooks
       BooksAPI.search(this.state.query, 20).then((searchedBooks) => {
-        this.setState({ searchedBooks })
-      })
+        // set a conditional to handle undefined and null
+        if (searchedBooks !== null && searchedBooks !== undefined) {
+          // the array of the homepage this.props.books
+          let newArray : []
+          function  printBook(book){
+            newArray: searchedBooks.map((b) => { return b.id === book.id ? (b.shelf = book.shelf, b) : b})
+          }
+
+          this.props.books.forEach(printBook)
+
+          this.setState({ searchedBooks })
+          }
+        })
     }
   }
 
 
   render (){
-    let searchedBooks
-    if (this.state.query) {
-      // If there is a query, they scape special characters
-      const match = new RegExp(escapeRegExp(this.state.query), 'i')
-      // Make the call to the api and populate the books with it
-      /*
-      BooksAPI.search(this.state.query, 20).then((searchedBooks) => {
-        this.setState({ books: searchedBooks })
-      })
-      */
-    }
-
     return (
       <div className="list-books">
         <div className="search-books-bar">
@@ -63,7 +62,7 @@ class SearchBook extends Component {
           </div>
         </div>
         <div className="search-book-search">
-          <Bookshelf books={this.state.searchedBooks} onShelfChange={this.props.onShelfChange} onUpdate={this.props.onUpdate} category='none'/>
+          <Bookshelf books={this.state.searchedBooks} onShelfChange={this.props.onShelfChange}/>
         </div>
       </div>
     )

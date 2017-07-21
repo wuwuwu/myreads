@@ -10,7 +10,6 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
-    counter: 0,
     books: [],
     newbooks: []
   }
@@ -18,7 +17,8 @@ class BooksApp extends React.Component {
   TO DO
 
 
-  // [] Add Logic for search showing actual api returned books
+  // X Add Logic for search showing actual api returned books
+  // X Find out why changes in search do not update the Search view
   // [] Not all books have a Thumbnail, imageLinks or Authors, create a logic to use default values in that case (null or undefined)
   // [] In the search query, check if it has changed and only make the call if it has indeed changed
   // [] Refactor to have a Book component. Verify and operate over the book ditionary itself in the component
@@ -61,9 +61,6 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
-    BooksAPI.search("Android", 20).then((booksSearched) => {
-      this.setState({ booksSearched })
-    })
   }
 
   render() {
@@ -76,7 +73,7 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-                <Bookshelf counter={ this.state.counter } books={this.state.books.filter(book => book.shelf === 'currentlyReading')} onShelfChange={this.updateBook} onUpdate={this.onUpdate} bookshelf_title={'Currently reading'}/>
+                <Bookshelf books={this.state.books.filter(book => book.shelf === 'currentlyReading')} onShelfChange={this.updateBook} bookshelf_title={'Currently reading'}/>
                 <Bookshelf books={this.state.books.filter(book => book.shelf === 'wantToRead')} onShelfChange={this.updateBook} bookshelf_title={'Want to read'}/>
                 <Bookshelf books={this.state.books.filter(book => book.shelf === 'read')} onShelfChange={this.updateBook} bookshelf_title={'Read'}/>
             </div>
@@ -91,7 +88,7 @@ class BooksApp extends React.Component {
         )}/>
         {/* Route for the Search */}
         <Route exact path="/search"  render={() => (
-          <SearchBook booksSearched={this.state.booksSearched} onShelfChange={this.updateBook} />
+          <SearchBook onShelfChange={this.updateBook} books={this.state.books}/>
         )}/>
       </div>
     )
