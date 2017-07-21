@@ -27,14 +27,15 @@ class SearchBook extends Component {
       BooksAPI.search(this.state.query, 20).then((searchedBooks) => {
         // set a conditional to handle undefined and null
         if (searchedBooks !== null && searchedBooks !== undefined) {
-          // the array of the homepage this.props.books
+          // Let's create a function that for each element of the HP books
+          // Checks if said element id is present in the books returned by the API
+          // And in affirmative case, changes the self values in the search array
+          // to be synchronized with the hp view
           let newArray : []
           function  printBook(book){
             newArray: searchedBooks.map((b) => { return b.id === book.id ? (b.shelf = book.shelf, b) : b})
           }
-
           this.props.books.forEach(printBook)
-
           this.setState({ searchedBooks })
           }
         })
