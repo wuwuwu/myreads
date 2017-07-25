@@ -34,6 +34,7 @@ class SearchBook extends Component {
           let newArray : []
           function  printBook(book){
             newArray: searchedBooks.map((b) => { return b.id === book.id ? (b.shelf = book.shelf, b) : b})
+            //newArray: searchedBooks.map((b) => { return b.id === book.id ? (b.shelf = book.shelf, b.imageLinks===true?b.imageLinks = book.imageLinks:b.imageLinks.smallThumbnail="http://via.placeholder.com/128x193", b) : b})
           }
           this.props.books.forEach(printBook)
           this.setState({ searchedBooks })

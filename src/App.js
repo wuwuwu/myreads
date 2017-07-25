@@ -16,15 +16,15 @@ class BooksApp extends React.Component {
   /*
   TO DO
 
+  // Add feature: always order books alphabetically and scape characters
+  // [] Refactor to have a Book component. Verify and operate over the book ditionary itself in the component
+  // [] Add logic to show the number of books in each category
+  // [] Handle the delay when updating books (changing shelfs), update local data directly instead of doing after updating with api put.then `BooksAPI.update` . if `success` do nothing, if `error` rollback the local change
 
+  // X Not all books have a Thumbnail, imageLinks or Authors, create a logic to use default values in that case (null or undefined)
+  // X In the search query, check if it has changed and only make the call if it has indeed changed
   // X Add Logic for search showing actual api returned books
   // X Find out why changes in search do not update the Search view
-  // [] Not all books have a Thumbnail, imageLinks or Authors, create a logic to use default values in that case (null or undefined)
-  // [] In the search query, check if it has changed and only make the call if it has indeed changed
-  // [] Refactor to have a Book component. Verify and operate over the book ditionary itself in the component
-  // [] Isolate change of shelf as a function
-  // [] Add logic to show the number of books in each category
-
   // X Add conditional, if the books exists, change the shelf value
   // X If it does not exists, add it to the state
   // X Clean the code from console calls

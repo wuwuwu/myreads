@@ -11,7 +11,13 @@ class Bookshelf extends Component {
              <li key={book.id}>
                <div className="book">
                  <div className="book-top">
-                   <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
+                 {/*Check if there is images in the api, if not, create a default cover image*/}
+                 {
+                   (book.imageLinks)
+                   ? <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url(${book.imageLinks.smallThumbnail})` }}></div>
+                   : <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(http://via.placeholder.com/128x193)` }}></div>
+                 }
+                   <div className="book-cover"></div>
                    <div className="book-shelf-changer">
                       <select defaultValue={book.shelf} onChange={(evt) => this.props.onShelfChange(book, evt)}>
                        <option value="none" disabled>Move to...</option>

@@ -277,3 +277,7 @@ class SearchBook extends Component {
 export default SearchBook
 
 // onClick={(evt) => console.log(this.props.book)}
+
+  /*  <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url(${book.imageLinks.smallThumbnail})` }}></div>*/
+  <div className="book-cover" style={{book.imageLinks ? width: 128, height: 193, backgroundImage:url('http://via.placeholder.com/128x193')}}></div>
+style={{ book.imageLinks ? width: 128, height: 193, backgroundImage:`url(${book.imageLinks.smallThumbnail})` : width: 128, height: 193, backgroundImage:url('http://via.placeholder.com/128x193') }}
