@@ -3,6 +3,7 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+import sortBy from 'sort-by'
 import Bookshelf from './Bookshelf'
 import SearchBook from './SearchBook'
 import * as BooksAPI from './BooksAPI'
@@ -16,11 +17,13 @@ class BooksApp extends React.Component {
   /*
   TO DO
 
-  // Add feature: always order books alphabetically and scape characters
   // [] Refactor to have a Book component. Verify and operate over the book ditionary itself in the component
   // [] Add logic to show the number of books in each category
   // [] Handle the delay when updating books (changing shelfs), update local data directly instead of doing after updating with api put.then `BooksAPI.update` . if `success` do nothing, if `error` rollback the local change
+  // [] Learn how to create regresive tests for each keyword in the search
 
+  // X Solve problem changing an existing book from the search view, creating a duplicated book
+  // X Add feature: always order books alphabetically and scape characters
   // X Not all books have a Thumbnail, imageLinks or Authors, create a logic to use default values in that case (null or undefined)
   // X In the search query, check if it has changed and only make the call if it has indeed changed
   // X Add Logic for search showing actual api returned books
@@ -39,22 +42,18 @@ class BooksApp extends React.Component {
   */
 
   updateBook = (book, evt) => {
-    const shelf = evt.target.value
-    BooksAPI.update(book, shelf).then(() => {
-      // Create a new array to treat the state as stateless
-      const newbooks = this.state.books.slice()
-      //We use a ternary operator to check if the book exists in the array
-      this.state.books.includes(book) ? (
-        // if it does exists, create a new array using map, with the shelf values changed for the book
-        this.setState((state) => ({ books: this.state.books.map((b) => { return b.id === book.id ? (b.shelf = shelf, b) : (b)})}))
-      ): (
-        // if it does not exist, change the shelf and add the book to the new array, set it in the state
-        book.shelf = shelf,
-        newbooks.push(book),
-        this.setState({ books: newbooks })
-
-      )
+    let shelf = evt.target.value
+    let newbooks = this.state.books.slice()
+    let booksKeys = this.state.books.map((b) => {
+      return b.id
     })
+    booksKeys.includes(book.id) ? (
+      this.setState((state) => ({ books: this.state.books.map((b) => { return b.id === book.id ? (b.shelf = shelf, b) : (b)}).sort(sortBy('title'))}))
+    ):(
+      book.shelf = shelf,
+      newbooks.push(book),
+      this.setState({ books: newbooks.sort(sortBy('title')) })
+    )
   }
 
   componentDidMount(){

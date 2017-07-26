@@ -3,13 +3,9 @@ import { Link } from 'react-router-dom'
 import Bookshelf from './Bookshelf'
 import * as BooksAPI from './BooksAPI'
 // Handling the queries and sorting by
-import escapeRegExp from 'escape-string-regexp'
-//import sortBy from 'sort-by'
+import sortBy from 'sort-by'
 
 class SearchBook extends Component {
-  constructor(props) {
-       super(props)
-   }
 
   state  = {
     query: '',
@@ -31,12 +27,11 @@ class SearchBook extends Component {
           // Checks if said element id is present in the books returned by the API
           // And in affirmative case, changes the self values in the search array
           // to be synchronized with the hp view
-          let newArray : []
-          function  printBook(book){
+          function  syncBook(book){
             newArray: searchedBooks.map((b) => { return b.id === book.id ? (b.shelf = book.shelf, b) : b})
-            //newArray: searchedBooks.map((b) => { return b.id === book.id ? (b.shelf = book.shelf, b.imageLinks===true?b.imageLinks = book.imageLinks:b.imageLinks.smallThumbnail="http://via.placeholder.com/128x193", b) : b})
           }
-          this.props.books.forEach(printBook)
+          this.props.books.forEach(syncBook)
+          searchedBooks.sort(sortBy('title'))
           this.setState({ searchedBooks })
           }
         })
