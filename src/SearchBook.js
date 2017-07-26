@@ -18,7 +18,7 @@ class SearchBook extends Component {
       // 0. Checking it is calling the function from the search field
       //console.log(this.props.books)
       // 1. we update the value of query in the state
-      this.setState({ query: query.trim()})
+      this.setState({ query: query})
       // 2. we repopulate the searchedBooks
       BooksAPI.search(this.state.query, 20).then((searchedBooks) => {
         // set a conditional to handle undefined and null
